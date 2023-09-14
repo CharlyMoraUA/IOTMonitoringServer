@@ -1,7 +1,7 @@
 from argparse import ArgumentError
 import ssl
-from django.db.models import Avg
-from datetime import timedelta, datetime
+from django.db.models import  Max
+from datetime import date, datetime
 from receiver.models import Data, Measurement
 import paho.mqtt.client as mqtt
 import schedule
@@ -19,8 +19,8 @@ def analyze_data():
     print("Calculando alertas...")
 
     data = Data.objects.filter(
-        base_time__gte=datetime.now() - timedelta(hours=1))
-    aggregation = data.annotate(check_value=Avg('avg_value')) \
+        base_time__date=date.today())
+    aggregation = data.annotate(check_value=Max('max_value')) \
         .select_related('station', 'measurement') \
         .select_related('station__user', 'station__location') \
         .select_related('station__location__city', 'station__location__state',
@@ -45,20 +45,18 @@ def analyze_data():
         city = item['station__location__city__name']
         user = item['station__user__username']
 
-        if item["check_value"] > max_value or item["check_value"] < min_value:
+        print("check_value="+str(item["check_value"]))
+        print("max_value="+str(max_value))
+        if item["check_value"] > max_value:
             alert = True
 
         if alert:
-            message = "ALERT {} {} {}".format(variable, min_value, max_value)
+            varMsg = variable[0:1]
+            message = "ALERT {} {} {}".format(varMsg, max_value, item["check_value"])
             topic = '{}/{}/{}/{}/in'.format(country, state, city, user)
             print(datetime.now(), "Sending alert to {} {}".format(topic, variable))
             client.publish(topic, message)
             alerts += 1
-        message = "UNIANDINO {} {} {}".format(variable, min_value, max_value)
-        topic = '{}/{}/{}/{}/in'.format(country, state, city, user)
-        print(datetime.now(), "Sending alert to {} {}".format(topic, variable))
-        client.publish(topic, message)
-        alerts += 1
 
     print(len(aggregation), "dispositivos revisados")
     print(alerts, "alertas enviadas")
