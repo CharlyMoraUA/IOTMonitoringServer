@@ -46,7 +46,7 @@ const char pass[] = "Carlos123"; // TODO cambiar por la contraseña de la red Wi
 
 //Conexión a Mosquitto
 #define USER "user1" // TODO Reemplace UsuarioMQTT por un usuario (no administrador) que haya creado en la configuración del bróker de MQTT.
-const char MQTT_HOST[] = "54.164.216.49"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
+const char MQTT_HOST[] = "34.204.74.226"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
 const int MQTT_PORT = 8082;
 const char MQTT_USER[] = USER;
 //Contraseña de MQTT
@@ -402,7 +402,7 @@ void configureMQTT() {
   client.setServer(MQTT_HOST, MQTT_PORT);
   
   // Se configura la función que se ejecutará cuando lleguen mensajes a la suscripción
-  client.setCallback(receivedCallback);
+  // client.setCallback(receivedCallback);
   
   //Llama a la función de este programa que realiza la conexión con Mosquitto
   mqtt_connect();
@@ -454,7 +454,7 @@ void loop() {
 
   checkWiFi();
 
-  String message = checkAlert();
+  // String message = checkAlert();
 
   measure();
   
@@ -463,7 +463,7 @@ void loop() {
   
   displayHeader();
   displayMeasures();
-  displayMessage(message);
+  // displayMessage(message);
 
   display.display();
 }
