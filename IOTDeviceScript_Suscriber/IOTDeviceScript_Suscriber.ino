@@ -40,23 +40,23 @@ PubSubClient client(net);
 
 // WiFi
 // Nombre de la red WiFi
-const char ssid[] = "PECHAN"; // TODO cambiar por el nombre de la red WiFi
+const char ssid[] = "Sandra y Jorge"; // TODO cambiar por el nombre de la red WiFi
 // Contraseña de la red WiFi
-const char pass[] = "Carlos123"; // TODO cambiar por la contraseña de la red WiFi
+const char pass[] = "Girardot2023"; // TODO cambiar por la contraseña de la red WiFi
 
 //Conexión a Mosquitto
-#define USER "user1" // TODO Reemplace UsuarioMQTT por un usuario (no administrador) que haya creado en la configuración del bróker de MQTT.
-const char MQTT_HOST[] = "54.164.216.49"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
+#define USER "admin" // TODO Reemplace UsuarioMQTT por un usuario (no administrador) que haya creado en la configuración del bróker de MQTT.
+const char MQTT_HOST[] = "34.204.74.226"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
 const int MQTT_PORT = 8082;
 const char MQTT_USER[] = USER;
 //Contraseña de MQTT
-const char MQTT_PASS[] = "123456"; // TODO Reemplace ContrasenaMQTT por la contraseña correpondiente al usuario especificado.
+const char MQTT_PASS[] = "admin"; // TODO Reemplace ContrasenaMQTT por la contraseña correpondiente al usuario especificado.
 
 //Tópico al que se recibirán los datos
 // El tópico de publicación debe tener estructura: <país>/<estado>/<ciudad>/<usuario>/out
 const char MQTT_TOPIC_PUB[] = "colombia/cundinamarca/chia/" USER "/out"; //TODO Reemplace el valor por el tópico de publicación que le corresponde.
 // El tópico de suscripción debe tener estructura: <país>/<estado>/<ciudad>/<usuario>/in
-const char MQTT_TOPIC_SUB[] = "colombia/cundinamarca/chia/" USER "/in"; //TODO Reemplace el valor por el tópico de suscripción que le corresponde.
+const char MQTT_TOPIC_SUB[] = "colombia/cundinamarca/chia/pe.perez/in"; //TODO Reemplace el valor por el tópico de suscripción que le corresponde.
 
 // Declaración de variables globales
 
@@ -462,7 +462,7 @@ void loop() {
   display.setCursor(0,0);
   
   displayHeader();
-  displayMeasures();
+  //displayMeasures();
   displayMessage(message);
 
   display.display();
